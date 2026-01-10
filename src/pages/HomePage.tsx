@@ -1,10 +1,10 @@
 import { useRef } from 'react'
-import HeroSection from '../components/ui/HeroSection'
-import CardCarousel from '../components/ui/CardCarousel'
-import LoadingSplash from '../components/ui/LoadingSplash'
-import { useFeaturedCards } from '../hooks/useFeaturedCards'
-import { useCardArcAnimation, type ArcPreset } from '../hooks/useCardArcAnimation'
-import { usePageReveal } from '../hooks/usePageReveal'
+import HeroSection from '@/components/ui/HeroSection'
+import CardCarousel from '@/components/ui/CardCarousel'
+import LoadingSplash from '@/components/ui/LoadingSplash'
+import { useFeaturedCards } from '@/hooks/useFeaturedCards'
+import { useCardArcAnimation, type ArcPreset } from '@/hooks/useCardArcAnimation'
+import { usePageReveal } from '@/hooks/usePageReveal'
 
 const presetArc: ArcPreset[] = [
   { rotate: -21, lift: 38, shift: -360, depth: 2 },

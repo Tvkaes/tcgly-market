@@ -1,9 +1,9 @@
 import { useMemo } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { useCardMarketSnapshot } from '../hooks/useCardMarketSnapshot'
-import CardPriceTrendChart from '../components/shared/CardPriceTrendChart'
-import HoloCard from '../components/shared/HoloCard'
-import { getTypeColor } from '../constants/pokemonTypes'
+import { useCardMarketSnapshot } from '@/hooks/useCardMarketSnapshot'
+import CardPriceTrendChart from '@/components/shared/CardPriceTrendChart'
+import HoloCard from '@/components/shared/HoloCard'
+import { getTypeColor } from '@/constants/pokemonTypes'
 
 const formatCurrency = (value: number, currency = 'USD') =>
   new Intl.NumberFormat('en-US', {
@@ -27,16 +27,16 @@ const CardPage = () => {
   const quickStats = useMemo(() => {
     if (!data) return []
     const items: Array<{ label: string; value: string }> = []
-    if (data.card.category) items.push({ label: 'Categoría', value: data.card.category })
-    if (data.card.rarity) items.push({ label: 'Rareza', value: data.card.rarity })
+    if (data.card.category) items.push({ label: 'Category', value: data.card.category })
+    if (data.card.rarity) items.push({ label: 'Rarity', value: data.card.rarity })
     if (data.card.hp) items.push({ label: 'HP', value: data.card.hp })
-    if (data.card.types?.length) items.push({ label: 'Tipo', value: data.card.types.join(' · ') })
-    if (data.card.stage) items.push({ label: 'Etapa', value: data.card.stage })
-    if (data.card.evolveFrom) items.push({ label: 'Evoluciona de', value: data.card.evolveFrom })
-    if (data.card.retreat !== undefined) items.push({ label: 'Retirada', value: String(data.card.retreat) })
-    if (data.card.regulationMark) items.push({ label: 'Regulación', value: data.card.regulationMark })
-    if (isTrainer && data.card.trainerType) items.push({ label: 'Tipo de Trainer', value: data.card.trainerType })
-    if (isEnergy && data.card.energyType) items.push({ label: 'Tipo de Energía', value: data.card.energyType })
+    if (data.card.types?.length) items.push({ label: 'Type', value: data.card.types.join(' · ') })
+    if (data.card.stage) items.push({ label: 'Stage', value: data.card.stage })
+    if (data.card.evolveFrom) items.push({ label: 'Evolves from', value: data.card.evolveFrom })
+    if (data.card.retreat !== undefined) items.push({ label: 'Retreat', value: String(data.card.retreat) })
+    if (data.card.regulationMark) items.push({ label: 'Regulation', value: data.card.regulationMark })
+    if (isTrainer && data.card.trainerType) items.push({ label: 'Trainer type', value: data.card.trainerType })
+    if (isEnergy && data.card.energyType) items.push({ label: 'Energy type', value: data.card.energyType })
     return items
   }, [data, isTrainer, isEnergy])
 
@@ -56,7 +56,7 @@ const CardPage = () => {
         <div>
           <p className="text-xs uppercase tracking-[0.4em] text-[#a27ec8]">Card Intelligence</p>
           <h1 className="font-display text-3xl font-semibold md:text-4xl">
-            {data?.card.name ?? 'Detalle de carta'}
+            {data?.card.name ?? 'Card details'}
           </h1>
           <p className="text-sm text-[#7a678f]">ID: {cardId}</p>
         </div>
@@ -65,25 +65,25 @@ const CardPage = () => {
             onClick={() => refetch()}
             className="rounded-full border border-white/30 bg-white/70 px-4 py-2 font-semibold text-[#2f1646] shadow-sm shadow-purple-500/10 transition hover:-translate-y-0.5 hover:bg-white"
           >
-            Refrescar
+            Refresh
           </button>
           <button
             onClick={() => navigate(-1)}
             className="rounded-full border border-transparent bg-[#ff4d6d] px-4 py-2 font-semibold text-white shadow-lg shadow-[#ff4d6d]/50 transition hover:-translate-y-0.5 hover:bg-[#ff3b5a]"
           >
-            Regresar
+            Go back
           </button>
         </div>
       </div>
 
       {!cardId && (
         <div className="rounded-3xl border border-dashed border-white/40 bg-white/40 px-8 py-10 text-center text-[#5b456d] shadow-inner shadow-purple-500/5">
-          <p className="text-lg">Selecciona una carta desde el dashboard de mercado para analizarla aquí.</p>
+          <p className="text-lg">Select a card from the market dashboard to analyze it here.</p>
           <Link
             to="/market"
             className="mt-4 inline-flex items-center justify-center rounded-full bg-[#ff4d6d] px-6 py-2 text-sm font-semibold text-white shadow-lg shadow-[#ff4d6d]/40 transition hover:-translate-y-0.5"
           >
-            Ir a Market
+            Go to Market
           </Link>
         </div>
       )}
@@ -107,12 +107,12 @@ const CardPage = () => {
 
           {isError && (
             <div className="rounded-3xl border border-red-200 bg-red-50/80 px-8 py-10 text-center text-red-600 shadow-inner shadow-red-500/20">
-              <p>{error?.message ?? 'No se pudo obtener la información de la carta.'}</p>
+              <p>{error?.message ?? 'We couldn’t load this card data.'}</p>
               <button
                 onClick={() => refetch()}
                 className="mt-4 rounded-full bg-red-500/90 px-6 py-2 text-sm font-semibold text-white shadow-lg shadow-red-500/30 transition hover:bg-red-500"
               >
-                Reintentar
+                Try again
               </button>
             </div>
           )}
@@ -130,7 +130,7 @@ const CardPage = () => {
                         alt={data.card.name}
                         isHolo={data.card.rarity?.toLowerCase() !== 'common'}
                         wrapperClassName="aspect-[63/88]"
-                        fallbackLabel="Sin imagen"
+                        fallbackLabel="No image available"
                       />
                     </div>
                     <div className="flex flex-wrap justify-center gap-2 text-xs">
@@ -141,7 +141,7 @@ const CardPage = () => {
                       )}
                       {data.card.illustrator && (
                         <span className="rounded-full border border-white/50 bg-white/80 px-3 py-1 text-[#7a678f] shadow-sm">
-                          Ilustrador: {data.card.illustrator}
+                          Illustrator: {data.card.illustrator}
                         </span>
                       )}
                     </div>
@@ -150,12 +150,12 @@ const CardPage = () => {
 
                 {/* Price box */}
                 <div className="rounded-2xl border border-white/40 bg-white/90 p-5 shadow-lg shadow-purple-500/10 backdrop-blur-lg">
-                  <p className="text-xs uppercase tracking-[0.3em] text-[#a27ec8]">Precio actual</p>
+                  <p className="text-xs uppercase tracking-[0.3em] text-[#a27ec8]">Current price</p>
                   <div className="mt-1 flex items-baseline justify-between">
                     <span className="text-3xl font-bold text-[#1f1235]">{formatCurrency(currentPrice)}</span>
                     {data.card.setId && (
                       <Link to={`/market/${data.card.setId}`} className="text-sm font-semibold text-[#7f5af0] hover:underline">
-                        Ver set completo
+                        View full set
                       </Link>
                     )}
                   </div>
@@ -166,7 +166,7 @@ const CardPage = () => {
               <div className="card-details-scroll space-y-6 lg:max-h-[calc(100vh-200px)] lg:overflow-y-auto lg:pr-3">
                 {/* Quick stats grid */}
                 <div className="rounded-[24px] border border-white/30 bg-white/85 p-6 shadow-xl shadow-purple-500/10 backdrop-blur-lg">
-                  <h2 className="mb-4 text-xs uppercase tracking-[0.4em] text-[#a27ec8]">Características</h2>
+                  <h2 className="mb-4 text-xs uppercase tracking-[0.4em] text-[#a27ec8]">Highlights</h2>
                   <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                     {quickStats.map((stat) => (
                       <div key={stat.label} className="rounded-xl border border-white/50 bg-white/70 p-4 shadow-inner shadow-purple-500/5">
@@ -184,9 +184,9 @@ const CardPage = () => {
 
                 {(isTrainer && (data.card.trainerType || data.card.effect)) && (
                   <div className="rounded-[24px] border border-white/30 bg-white/85 p-6 shadow-xl shadow-purple-500/10 backdrop-blur-lg">
-                    <h2 className="mb-4 text-xs uppercase tracking-[0.4em] text-[#a27ec8]">Detalles de Trainer</h2>
+                    <h2 className="mb-4 text-xs uppercase tracking-[0.4em] text-[#a27ec8]">Trainer details</h2>
                     {data.card.trainerType && (
-                      <p className="mb-3 text-sm font-semibold text-[#1f1235]">Tipo: {data.card.trainerType}</p>
+                      <p className="mb-3 text-sm font-semibold text-[#1f1235]">Type: {data.card.trainerType}</p>
                     )}
                     {data.card.effect && (
                       <p className="text-sm leading-relaxed text-[#5b456d]">{data.card.effect}</p>
@@ -196,9 +196,9 @@ const CardPage = () => {
 
                 {(isEnergy && (data.card.energyType || data.card.effect)) && (
                   <div className="rounded-[24px] border border-white/30 bg-white/85 p-6 shadow-xl shadow-purple-500/10 backdrop-blur-lg">
-                    <h2 className="mb-4 text-xs uppercase tracking-[0.4em] text-[#a27ec8]">Detalles de Energía</h2>
+                    <h2 className="mb-4 text-xs uppercase tracking-[0.4em] text-[#a27ec8]">Energy details</h2>
                     {data.card.energyType && (
-                      <p className="mb-3 text-sm font-semibold text-[#1f1235]">Tipo de energía: {data.card.energyType}</p>
+                      <p className="mb-3 text-sm font-semibold text-[#1f1235]">Energy type: {data.card.energyType}</p>
                     )}
                     {data.card.effect && (
                       <p className="text-sm leading-relaxed text-[#5b456d]">{data.card.effect}</p>
@@ -209,7 +209,7 @@ const CardPage = () => {
                 {/* Attacks section (only for Pokémon) */}
                 {isPokemon && data.card.attacks && data.card.attacks.length > 0 && (
                   <div className="rounded-[24px] border border-white/30 bg-white/85 p-6 shadow-xl shadow-purple-500/10 backdrop-blur-lg">
-                    <h2 className="mb-4 text-xs uppercase tracking-[0.4em] text-[#a27ec8]">Ataques</h2>
+                    <h2 className="mb-4 text-xs uppercase tracking-[0.4em] text-[#a27ec8]">Attacks</h2>
                     <div className="space-y-4">
                       {data.card.attacks.map((attack, idx) => (
                         <div key={`${attack.name}-${idx}`} className="rounded-xl border border-white/50 bg-white/70 p-4 shadow-inner shadow-purple-500/5">
@@ -246,7 +246,7 @@ const CardPage = () => {
                 {/* Weaknesses section */}
                 {isPokemon && data.card.weaknesses && data.card.weaknesses.length > 0 && (
                   <div className="rounded-[24px] border border-white/30 bg-white/85 p-6 shadow-xl shadow-purple-500/10 backdrop-blur-lg">
-                    <h2 className="mb-4 text-xs uppercase tracking-[0.4em] text-[#a27ec8]">Debilidades</h2>
+                    <h2 className="mb-4 text-xs uppercase tracking-[0.4em] text-[#a27ec8]">Weaknesses</h2>
                     <div className="flex flex-wrap gap-3">
                       {data.card.weaknesses.map((w, idx) => (
                         <div
@@ -266,18 +266,18 @@ const CardPage = () => {
                 <div className="rounded-[24px] border border-white/30 bg-white/90 p-6 shadow-lg shadow-purple-500/10 backdrop-blur-lg">
                   <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                      <p className="text-xs uppercase tracking-[0.4em] text-[#a27ec8]">Histórico</p>
-                      <h3 className="font-display text-xl text-[#1f1235]">Comportamiento del precio</h3>
+                      <p className="text-xs uppercase tracking-[0.4em] text-[#a27ec8]">History</p>
+                      <h3 className="font-display text-xl text-[#1f1235]">Price behavior</h3>
                     </div>
-                    <span className="text-xs font-semibold text-[#7a678f]">Últimos 8 cortes</span>
+                    <span className="text-xs font-semibold text-[#7a678f]">Last 8 snapshots</span>
                   </div>
                   <CardPriceTrendChart data={data.priceTrend} />
                 </div>
 
                 {/* Market comparison */}
                 <div className="rounded-[24px] border border-white/30 bg-white/90 p-6 shadow-lg shadow-purple-500/10 backdrop-blur-lg">
-                  <p className="text-xs uppercase tracking-[0.4em] text-[#a27ec8]">Comparativa</p>
-                  <h3 className="font-display text-xl text-[#1f1235]">Precio por mercado</h3>
+                  <p className="text-xs uppercase tracking-[0.4em] text-[#a27ec8]">Comparison</p>
+                  <h3 className="font-display text-xl text-[#1f1235]">Market prices</h3>
                   <div className="mt-4 grid gap-3 sm:grid-cols-2">
                     {data.priceComparisons.map((market) => (
                       <div key={`card-market-${market.market}`} className="rounded-xl border border-white/50 bg-white/70 p-4 shadow-inner shadow-purple-500/5">

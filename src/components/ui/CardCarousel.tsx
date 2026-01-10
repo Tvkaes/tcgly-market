@@ -1,6 +1,6 @@
-import type { Card } from '../../hooks/useFeaturedCards'
-import type { ArcPreset } from '../../hooks/useCardArcAnimation'
-import HoloCard from '../shared/HoloCard'
+import HoloCard from '@/components/shared/HoloCard'
+import type { ArcPreset } from '@/hooks/useCardArcAnimation'
+import type { Card } from '@/hooks/useFeaturedCards'
 
 interface CardCarouselProps {
   cards: Card[]

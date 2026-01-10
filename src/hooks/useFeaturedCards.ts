@@ -38,6 +38,23 @@ tcgdex.setCacheTTL(0)
 export const FEATURED_CARDS_COUNT = 7
 const MAX_SET_ATTEMPTS = 8
 
+const ensureCardImage = (url?: string | null): string | null => {
+  if (!url) return null
+  let sanitized = url.trim()
+  if (!sanitized) return null
+  sanitized = sanitized.replace(/\/+$/, '')
+
+  const hasFullPath = /\.(png|webp|jpg)$/i.test(sanitized)
+  if (hasFullPath) return sanitized
+
+  const endsWithQuality = /\/(high|low)$/i.test(sanitized)
+  if (endsWithQuality) {
+    return `${sanitized}.webp`
+  }
+
+  return `${sanitized}/high.webp`
+}
+
 const fetchFeaturedCards = async (): Promise<Card[]> => {
   const collectedCards: Card[] = []
   const seenIds = new Set<string>()
@@ -61,8 +78,13 @@ const fetchFeaturedCards = async (): Promise<Card[]> => {
         return null
       })) as SdkCardDetails | null
 
-      seenIds.add(cardResume.id)
       const imageBase = cardDetails?.image ?? cardResume.image ?? null
+      const image = ensureCardImage(imageBase)
+      if (!image) {
+        continue
+      }
+
+      seenIds.add(cardResume.id)
       const rarity = cardDetails?.rarity ?? null
       const isHolo =
         Boolean(cardDetails?.variants?.holo) === true &&
@@ -73,7 +95,7 @@ const fetchFeaturedCards = async (): Promise<Card[]> => {
       collectedCards.push({
         id: cardResume.id,
         name: cardResume.name,
-        image: imageBase ? `${imageBase}/high.webp` : null,
+        image,
         rarity,
         isHolo,
       })
@@ -81,7 +103,7 @@ const fetchFeaturedCards = async (): Promise<Card[]> => {
   }
 
   if (!collectedCards.length) {
-    throw new Error('No se pudieron obtener cartas. Intenta de nuevo.')
+    throw new Error('We could not fetch featured cards. Please try again.')
   }
 
   return collectedCards.slice(0, FEATURED_CARDS_COUNT)

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef } from 'react'
 import { animate } from 'animejs'
-import type { Card } from './useFeaturedCards'
+import type { Card } from '@/hooks/useFeaturedCards'
 
 export interface ArcPreset {
   rotate: number

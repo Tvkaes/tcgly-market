@@ -4,8 +4,8 @@ import { BrowserRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
 import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister'
-import './index.css'
-import App from './App.tsx'
+import '@/index.css'
+import App from '@/App.tsx'
 
 const queryClient = new QueryClient({
   defaultOptions: {
